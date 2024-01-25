@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Cart{% endblock %}
+{% block content %}
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <a href="/" class="btn-link" style="text-decoration: none"><i class="fa-sharp fa-solid fa-chevron-left"></i> Continue shopping</a>
+                <p class="text-muted mb-0 mt-3">Pay Impractical Products</p>
+                <p class="fs-1 fw-bolder mb-5">{{ "${:,.2f}".format(cartTotal) }}</p>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{% if category %}{{category}}{% else %}info{% endif %} alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                {% for product in cart %}
+                <div class="row my-4">
+                    <div class="col-lg-2 col-3">
+                        <div style="width: 100%; height: 0; background: {% if product.image_url %}url({{product.image_url}}){% else %}{{colors|random}}{% endif %}; border-radius: 4px; background-size: cover; background-position: center; background-repeat: no-repeat;padding-bottom: 100%"></div>
+                    </div>
+                    <div class="col">
+                        <span class="fw-semibold fs-5">{{product.name}}</span>
+                        <form action="/cart/{{product.id}}/update" method="POST" class="row row-cols-lg-auto mt-3 needs-validation" novalidate>
+                            <div class="col">
+                                <input type="number" class="form-control form-control-sm qty" placeholder="1" name="quantity" value="{{product.qty}}" min="0" max="{{product.stock}}" required>
+                                <div class="invalid-feedback">
+                                    You must enter a value between 0 and {{product.stock}}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-link">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col text-end">
+                        <p class="fw-semibold mb-0 fs-5">{{ "${:,.2f}".format(product.total) }}</p>
+                        {% if product.qty > 1 %}
+                        <p class="fw-light text-muted">{{ "${:,.2f}".format(product.price) }} each</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-1 text-end">
+                        <a href="/cart/{{product.id}}/remove" class="btn btn-outline-secondary"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                </div>
+                {% endfor %}
+                <a href="/cart/empty" class="btn btn-outline-dark mt-2 mb-5"><i class="fa-duotone fa-cart-flatbed-empty"></i> Empty cart</a>
+                <div class="d-grid mt-2">
+                    <a href="/cart/checkout" class="btn btn-success btn-lg">Checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

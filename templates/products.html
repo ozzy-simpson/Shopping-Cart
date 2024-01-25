@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Products{% endblock %}
+{% block content %}
+    <h2>{% if pageTitle %}{{pageTitle}}{% else %}Products{% endif %}</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {% if pageTitle %}
+                <li class="breadcrumb-item"><a href="/">Products</a></li>
+                {% if query %}
+                    <li class="breadcrumb-item"><a href="/products/{{pageId}}">{{pageTitle}}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">"{{query}}"</li>
+                {% else %}
+                    <li class="breadcrumb-item active" aria-current="page">{{pageTitle}}</li>
+                {% endif %}
+            {% else %}
+                {% if query %}
+                    <li class="breadcrumb-item"><a href="/">Products</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">"{{query}}"</li>
+                {% else %}
+                    <li class="breadcrumb-item active" aria-current="page">Products</li>
+                {% endif %}
+            {% endif %}
+        </ol>
+    </nav>
+    <div class="bg-secondary-subtle rounded px-3 py-2">
+        <form action="" method="GET">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search..." name="query"{% if query %} value="{{query}}"{% endif %}>
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="row row-cols-1 row-cols-md-4 g-4 mt-4">
+        {% for product in products %}
+        <div class="col">
+            {{ blocks.productCard(product.id, product.name, product.price, product.stock, colors, product.image_url, product.description) }}
+        </div>
+        {% endfor %}
+    </div>
+    {% if not products %}
+        <p class="text-center text-muted">No items found</p>
+    {% endif %}
+{% endblock content %}

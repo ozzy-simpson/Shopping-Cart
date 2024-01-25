@@ -1,0 +1,20 @@
+{% macro productCard(id, name, price, stock, colors, image_url='', description='') -%}
+    <div class="card h-100 product">
+        <div class="card-img-top" style="background: {% if image_url %}url({{image_url}}){% else %}{{colors|random}}{% endif %}"></div>
+        <div class="card-body">
+            <h5 class="card-title">{{name}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">${{price}}</h6>
+            {% if description %}
+            <p class="card-text">{{description}}</p>
+            {% endif %}
+            {% if stock > 0 %}
+            <a href="/product/{{id}}/add" class="btn btn-outline-primary mt-3"><i class="fa-duotone fa-cart-plus"></i> Add to cart</a>
+            {% else %}
+            <a href="#" class="btn btn-outline-secondary mt-3 disabled"><i class="fa-duotone fa-cart-plus"></i> Add to cart</a>
+            {% endif %}
+        </div>
+        <div class="card-footer text-muted">
+            <i class="fa-duotone fa-shelves"></i> {{stock}} in stock
+        </div>
+    </div>
+{%- endmacro %}

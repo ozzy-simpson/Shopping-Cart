@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Signup{% endblock %}
+{% block content %}
+    <h2 class="mb-4">Signup</h2>
+    <form action="" method="POST" class="needs-validation" novalidate>
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label for="fname" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="fname" name="fname" required>
+                <div class="invalid-feedback">
+                    Please enter your first name.
+                </div>
+            </div>
+            <div class="mb-3 col-md-6">
+                <label for="lname" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lname" name="lname" required>
+                <div class="invalid-feedback">
+                    Please enter your last name.
+                </div>
+            </div>
+            <div class="mb-3 col-md-6">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+                <div class="invalid-feedback">
+                    Please choose a username.
+                </div>
+            </div>
+            <div class="mb-3 col-md-6">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+                <div class="invalid-feedback">
+                    Please choose a password.
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Signup</button>
+        <a href="/account/login" class="btn btn-link">Already have an account? Log in instead</a>
+    </form>
+{% endblock content %}
